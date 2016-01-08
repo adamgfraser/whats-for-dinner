@@ -1,5 +1,5 @@
 class Restaurant
-  attr_accessor :id, :is_claimed, :is_closed, :name, :image_url, :url, :mobile_url, :phone, :display_phone, :review_count, :categories, :distance, :rating, :rating_img_url, :rating_img_url_small, :rating_img_url_large, :snippet_text, :snippet_image_url, :address, :display_address, :city, :state_code, :postal_code, :country_code, :cross_streets, :neighborhoods, :latitude, :longitude, :menu_provider, :menu_date_updated, :reservation_url, :eat24_url
+  attr_reader :id, :is_claimed, :is_closed, :name, :image_url, :url, :mobile_url, :phone, :display_phone, :review_count, :categories, :distance, :rating, :rating_img_url, :rating_img_url_small, :rating_img_url_large, :snippet_text, :snippet_image_url, :address, :display_address, :city, :state_code, :postal_code, :country_code, :cross_streets, :neighborhoods, :latitude, :longitude, :menu_provider, :menu_date_updated, :reservation_url, :eat24_url
 
   @@all = []
 
@@ -16,6 +16,10 @@ class Restaurant
       end
     end
     @@all << self
+  end
+
+  def self.all
+    @@all
   end
 
 end
