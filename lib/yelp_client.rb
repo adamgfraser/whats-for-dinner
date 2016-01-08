@@ -18,7 +18,7 @@ class YelpClient
   end
 
   def search(location, params = {}, locale = {})
-    client.search(location, params, locale)
+    client.search(location, params, locale).businesses
   end
 
 end
