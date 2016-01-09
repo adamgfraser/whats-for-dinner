@@ -1,9 +1,12 @@
+require_relative 'category'
+
 class Restaurant
   attr_reader :id, :is_claimed, :is_closed, :name, :image_url, :url, :mobile_url, :phone, :display_phone, :review_count, :categories, :distance, :rating, :rating_img_url, :rating_img_url_small, :rating_img_url_large, :snippet_text, :snippet_image_url, :address, :display_address, :city, :state_code, :postal_code, :country_code, :cross_streets, :neighborhoods, :latitude, :longitude, :menu_provider, :menu_date_updated, :reservation_url, :eat24_url
 
   @@all = []
 
   def initialize(restaurant)
+    Category.batch_create_from_file if Category.all.empty?
     location = restaurant.location
     coordinate = location.coordinate
     [restaurant, location, coordinate].each do |instance|
@@ -11,7 +14,15 @@ class Restaurant
         instance_has = instance.instance_variable_defined?(variable)
         self_has = self.instance_variables.find(variable)
         if instance_has && self_has
-          self.instance_variable_set(variable, instance.instance_variable_get(variable))
+          if variable.to_s == "@categories"
+            categories = instance.categories
+              .map {|category| Category.find_by_title(category[0])}
+              .compact
+            @categories = categories
+            categories.each {|category| category.restaurants << self}
+          else
+            self.instance_variable_set(variable, instance.instance_variable_get(variable))
+          end
         end
       end
     end

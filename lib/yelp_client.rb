@@ -2,7 +2,6 @@ require 'nokogiri'
 require 'yelp'
 
 class YelpClient
-
   attr_reader :client
 
   def initialize
