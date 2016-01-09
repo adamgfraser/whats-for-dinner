@@ -1,4 +1,4 @@
-[
+CATEGORY_LIST = [
     {
         "alias": "3dprinting", 
         "parents": [

@@ -1,10 +1,6 @@
-require_relative 'user'
-require_relative 'category'
-require_relative 'whats_for_dinner'
-
 class CommandLineInterface
 
-  CATEGORIES = Category.batch_create_from_file
+  CATEGORIES = Category.get_category_list
 
   def run
     location = get_location
@@ -116,5 +112,3 @@ class CommandLineInterface
   end
 
 end
-
-CommandLineInterface.new.run

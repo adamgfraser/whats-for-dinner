@@ -1,6 +1,3 @@
-require_relative 'yelp_client'
-require_relative 'restaurant'
-
 class WhatsForDinner
   attr_accessor :location, :users, :yelp_client, :categories, :preferred_categories, :restaurants
 

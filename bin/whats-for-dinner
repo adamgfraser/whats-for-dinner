@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+require 'yelp'
+
+require_relative '../lib/category'
+require_relative '../lib/category_list'
+require_relative '../lib/command_line_interface'
+require_relative '../lib/restaurant'
+require_relative '../lib/user'
+require_relative '../lib/whats_for_dinner'
+require_relative '../lib/yelp_client'
+
+CommandLineInterface.new.run

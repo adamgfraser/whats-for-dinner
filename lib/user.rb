@@ -1,5 +1,3 @@
-require_relative 'category'
-
 class User
   attr_accessor :name, :likes, :dislikes
 
