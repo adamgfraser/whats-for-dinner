@@ -1,3 +1,5 @@
+require_relative 'category'
+
 class User
   attr_accessor :name, :likes, :dislikes
 
@@ -5,8 +7,8 @@ class User
 
   def initialize(name, likes, dislikes)
     @name = name
-    @likes = likes
-    @dislikes = dislikes
+    @likes = likes.map {|title| Category.find_by_title(title)}
+    @dislikes = dislikes.map {|title| Category.find_by_title(title)}
     @@all << self
   end
 

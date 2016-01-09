@@ -9,8 +9,13 @@ class CommandLineInterface
   def run
     location = get_location
     users = get_users
-    recommendation = WhatsForDinner.ask(location, users)
-    make_recommendation(recommendation)
+    whats_for_dinner = WhatsForDinner.new(location, users)
+    loop do
+      restaurant = whats_for_dinner.ask
+      make_recommendation(restaurant)
+      break if yes?("Sound good?")
+    end
+    puts "Great!  Thanks for using What's For Dinner?, powered by Yelp."
   end
 
   def get_location
@@ -29,14 +34,23 @@ class CommandLineInterface
       dislikes = get_preferences(gets)
       user = User.new(name, likes, dislikes)
       users << user
-      puts "Is anyone else joining you?"
-      break unless has_next_user?(gets)
+      break unless yes?("Is anyone else joining you?")
     end
     users
   end
 
-  def make_recommendation(recommendation)
-    puts "Let's go to #{recommendation}."
+  def make_recommendation(restaurant)
+    puts "How about?"
+    puts ""
+    puts restaurant.name
+    puts "#{restaurant.rating} star rating, #{restaurant.review_count} reviews"
+    puts restaurant.categories.map{|category| category.title}.join(", ")
+    puts ""
+    puts restaurant.display_address
+    puts restaurant.display_phone
+    puts ""
+    puts "\"#{restaurant.snippet_text}\""
+    puts ""
   end
 
   def get_preferences(input)
@@ -59,7 +73,7 @@ class CommandLineInterface
             .split(/[,][ ]*/)
             .select {|string| !string.include? ","}
             .first
-          validated_categories << get_preferences(recover_category)
+          get_preferences(recover_category).each {|category| validated_categories << category}
         end
       end
       validated_categories.uniq
@@ -88,15 +102,16 @@ class CommandLineInterface
     end
   end
 
-  def has_next_user?(input)
-    case input.strip.downcase
+  def yes?(prompt)
+    puts prompt
+    case gets.strip.downcase
     when "yes"
       true
     when "no"
       false
     else
       puts "I'm sorry, I didn't understand you.  Please say \"Yes\" or \"No\"."
-      has_next_user?(gets)
+      yes?(prompt)
     end
   end
 

@@ -35,7 +35,7 @@ class Category
   end
 
   def self.find_by_title(title)
-    self.all.find {|category| category.title == title }
+    self.all.find {|category| category.title.downcase == title.downcase }
   end
 
 end
