@@ -76,12 +76,12 @@ class CommandLineInterface
     end
   end
 
-  def suggested_categories(input, categories = CATEGORIES, characters = 0)
+  def suggested_categories(input, categories = CATEGORIES, characters = 1)
     suggestions = categories
       .select {|category| category.title.downcase[0, characters] == input.downcase[0, characters]}
       .compact
-    if suggestions.empty? || suggested_categories(input, suggestions, characters + 1).empty?
-      suggestions
+    if suggestions.empty?
+      categories
     else
       suggested_categories(input, suggestions, characters + 1)
     end
